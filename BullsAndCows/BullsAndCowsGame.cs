@@ -19,7 +19,8 @@ namespace BullsAndCows
         public string Guess(string guess)
         {
             var countBulls = CountBulls(guess);
-            return $"{countBulls}A0B";
+            var countCows = CountCows(guess);
+            return $"{countBulls}A{countCows}B";
         }
 
         private int CountBulls(string guess)
@@ -27,6 +28,13 @@ namespace BullsAndCows
             var gussDigits = guess.Split(" ");
             var secretDigits = secret.Split(" ");
             return secretDigits.Where((t, index) => gussDigits[index] == t).Count();
+        }
+
+        private int CountCows(string guess)
+        {
+            var gussDigits = guess.Split(" ");
+            var secretDigits = secret.Split(" ");
+            return gussDigits.Intersect(secretDigits).Count() - CountBulls(guess);
         }
     }
 }
