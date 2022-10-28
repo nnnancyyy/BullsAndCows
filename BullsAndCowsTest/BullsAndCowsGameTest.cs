@@ -59,5 +59,35 @@ namespace BullsAndCowsTest
             //then
             Assert.Equal("1A1B", guessResult);
         }
+
+        [Theory]
+        [InlineData("1 2 3 4", "1 3 2 4")]
+        [InlineData("1 2 3 4", "4 2 3 1")]
+        public void Should_return_2A2B(string secret, string guessDigits)
+        {
+            //given
+            var mockSecretGenerator = new Mock<SecretGenerator>();
+            mockSecretGenerator.Setup(x => x.GenerateSecret()).Returns(secret);
+            var game = new BullsAndCowsGame(mockSecretGenerator.Object);
+            //when
+            var guessResult = game.Guess(guessDigits);
+            //then
+            Assert.Equal("2A2B", guessResult);
+        }
+
+        [Theory]
+        [InlineData("1 2 3 4", "4 3 2 1")]
+        [InlineData("1 2 3 4", "4 1 2 3")]
+        public void Should_return_0A4B(string secret, string guessDigits)
+        {
+            //given
+            var mockSecretGenerator = new Mock<SecretGenerator>();
+            mockSecretGenerator.Setup(x => x.GenerateSecret()).Returns(secret);
+            var game = new BullsAndCowsGame(mockSecretGenerator.Object);
+            //when
+            var guessResult = game.Guess(guessDigits);
+            //then
+            Assert.Equal("0A4B", guessResult);
+        }
     }
 }
